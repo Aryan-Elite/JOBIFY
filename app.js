@@ -15,11 +15,12 @@ const globalErrorHandler= require('./controllers/errorController');
 //     })
 //   );
 
-  // 3) ROUTES
+  // 3) ROUTES 
 app.use('/api/v1/user',userRouter);
 app.use('/api/v1/job',jobRouter);
 app.use('/api/v1/application',applicationRouter);
- //USED different middlewares
+
+  
   app.use(cookieParser());
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
