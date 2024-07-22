@@ -1,4 +1,5 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
+const User = require('./userModel');
 
 const jobSchema = new mongoose.Schema({
   title: {
@@ -9,7 +10,7 @@ const jobSchema = new mongoose.Schema({
   },
   description: {
     type: String,
-    required: [true, "Please provide decription."],
+    required: [true, "Please provide description."],
     minLength: [30, "Description must contain at least 30 Characters!"],
     maxLength: [500, "Description cannot exceed 500 Characters!"],
   },
@@ -28,22 +29,22 @@ const jobSchema = new mongoose.Schema({
   location: {
     type: String,
     required: [true, "Please provide location."],
-    minLength: [20, "Location must contian at least 20 characters!"],
+    minLength: [20, "Location must contain at least 20 characters!"],
   },
   fixedSalary: {
     type: Number,
-    minLength: [4, "Salary must contain at least 4 digits"],
-    maxLength: [9, "Salary cannot exceed 9 digits"],
+    min: [1000, "Salary must be at least 4 digits"],
+    max: [999999999, "Salary cannot exceed 9 digits"],
   },
   salaryFrom: {
     type: Number,
-    minLength: [4, "Salary must contain at least 4 digits"],
-    maxLength: [9, "Salary cannot exceed 9 digits"],
+    min: [1000, "Salary must be at least 4 digits"],
+    max: [999999999, "Salary cannot exceed 9 digits"],
   },
   salaryTo: {
     type: Number,
-    minLength: [4, "Salary must contain at least 4 digits"],
-    maxLength: [9, "Salary cannot exceed 9 digits"],
+    min: [1000, "Salary must be at least 4 digits"],
+    max: [999999999, "Salary cannot exceed 9 digits"],
   },
   expired: {
     type: Boolean,
@@ -54,10 +55,11 @@ const jobSchema = new mongoose.Schema({
     default: Date.now,
   },
   postedBy: {
-    type: mongoose.Schema.ObjectId,
-    ref: "User",   //taing referecne from User schema
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User", // taking reference from User schema
     required: true,
   },
 });
 
-export const Job = mongoose.model("Job", jobSchema);
+const Job = mongoose.model('Job', jobSchema);
+module.exports = Job;

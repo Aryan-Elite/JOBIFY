@@ -6,7 +6,8 @@ const cookieParser = require('cookie-parser');
 const userRouter = require('./routes/userRoute');
 const jobRouter = require('./routes/jobRoute');
 const applicationRouter = require('./routes/applicationRoute');
-const globalErrorHandler= require('./controllers/errorController');
+const { ErrorHandler, handleErrors } = require('./controllers/errorController');
+ // Adjust the path accordingly
 // app.use(
 //     cors({
 //       origin: [process.env.FRONTEND_URL],
@@ -15,15 +16,14 @@ const globalErrorHandler= require('./controllers/errorController');
 //     })
 //   );
 
+app.use(cookieParser());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));   // to parse the data into json coming from frontend which is of other types
+
   // 3) ROUTES 
 app.use('/api/v1/user',userRouter);
 app.use('/api/v1/job',jobRouter);
 app.use('/api/v1/application',applicationRouter);
-
-  
-  app.use(cookieParser());
-  app.use(express.json());
-  app.use(express.urlencoded({ extended: true }));
   // Global error handling middleware
-app.use(globalErrorHandler);
+// app.use(ErrorHandler);
 module.exports=app;
