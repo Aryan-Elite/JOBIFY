@@ -1,0 +1,77 @@
+/* Global Styles */
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif; 
+    box-sizing: border-box;
+}
+
+.heade {
+    background: #fff;
+    color: #1e1f21;
+}
+
+/* Component-Specific Styles */
+.jobs {
+    padding: 20px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 20px;
+    text-align: center;
+}
+
+.banner {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.card {
+    background: rgb(36, 36, 36); 
+    height: 50vh;
+    color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 5px 5px 15px rgba(5, 5, 5, 0.6);
+    margin: 20px;
+    max-width: 300px;
+    text-align: center;
+    flex: 0 1 30%; /* Takes approximately 30% of the container width */
+    transition: transform 0.5s, box-shadow 0.5s;
+    position: relative;
+    
+    overflow: hidden;
+}
+.title{
+    font-size: 1rem;
+    color: #fff;
+}
+.category{
+    color: rgb(138, 139, 137);
+}
+.card:hover {
+    transform: scale(1.05);
+    box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.8);
+}
+
+.card p {
+    margin: 10px 0;
+}
+
+.card a {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 10px 20px;
+    color: #fff;
+    background: #007bff;
+    border-radius: 5px;
+    text-decoration: none;
+    transition:  0.3s;
+}
+
+.card a:hover {
+    background: #0056b3;
+}
