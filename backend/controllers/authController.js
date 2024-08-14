@@ -1,3 +1,6 @@
+const dotenv = require('dotenv');
+dotenv.config({ path: './config.env' });
+const path = require('path');
 const crypto = require('crypto');
 const { promisify } = require('util');
 const jwt = require('jsonwebtoken');

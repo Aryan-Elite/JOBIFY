@@ -1,7 +1,7 @@
 const multer = require('multer');
 const Application = require('../models/applicationModel');
 const Job = require('../models/jobModel');
-
+const nodemailer = require('nodemailer');
 const multerStorage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, './ResumeUploads/');
@@ -83,9 +83,42 @@ exports.postApplication = async (req, res) => {
       resume,
     });
 
+
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      host: "smtp.gmail.com",
+      port: 587,
+      secure: false, // Use `true` for port 465, `false` for all other ports
+      auth: {
+        user: process.env.EMAIL_USER, // Store your email in environment variable
+        pass: process.env.EMAIL_PASS, // Store your app password in environment variable
+      },
+    });
+    
+    const mailOptions = {
+      from: `"${jobDetails.company}" <${process.env.EMAIL_USER}>`, // Correct format for displaying the company name
+      to: email, // list of receivers
+      subject: `Application Confirmation for ${jobDetails.title}`,
+      
+      text: `Dear ${name},\n\nThank you for applying for the ${jobDetails.title} position at ${jobDetails.company}.\n\nJob Details:\nTitle: ${jobDetails.title}\nDescription: ${jobDetails.description}\nLocation: ${jobDetails.location}\n\nWe have received your application and will review it shortly. You will be contacted soon if you are shortlisted.\n\nBest regards,\n${jobDetails.companyName}`,
+
+      html: `<p>Dear ${name},</p><p>Thank you for applying for the <strong>${jobDetails.title}</strong> position at ${jobDetails.company}.</p><p><strong>Job Details:</strong><br/>Title: ${jobDetails.title}<br/>Description: ${jobDetails.description}<br/>Location: ${jobDetails.location}</p><p>We have received your application and will review it shortly. You will be contacted soon if you are shortlisted.</p><p>Best regards,<br/>${jobDetails.company}</p>`,
+      
+      // attachments: [
+      //   {
+      //     filename: "test.png",
+      //     path:'./test.png',
+      //     contentType: "image/png"
+      //   }
+      // ], // attachments
+    };
+    // Send the email
+    await transporter.sendMail(mailOptions);
+   console.log(jobDetails);
+   
     res.status(200).json({
       success: true,
-      message: "Application Submitted!",
+      message: "Application Submitted and Email Sent!",
       application,
     });
   } catch (error) {
@@ -161,4 +194,3 @@ exports.jobseekerDeleteApplication = async (req, res) => {
     });
   }
 };
-
