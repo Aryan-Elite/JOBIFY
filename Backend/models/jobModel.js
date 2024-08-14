@@ -2,6 +2,10 @@ const mongoose = require("mongoose");
 const User = require('./userModel');
 
 const jobSchema = new mongoose.Schema({
+  company:{
+    type: String,
+    required: [true, "Please provide the Company name."],
+  },
   title: {
     type: String,
     required: [true, "Please provide a title."],
@@ -45,6 +49,11 @@ const jobSchema = new mongoose.Schema({
     type: Number,
     min: [1000, "Salary must be at least 4 digits"],
     max: [999999999, "Salary cannot exceed 9 digits"],
+  },
+  experienceLevel: {  // New field for experience level
+    type: String,
+    enum: ['Entry', 'Mid', 'Senior'],
+    required: [true, "Please provide the experience level."]
   },
   expired: {
     type: Boolean,

@@ -1,5 +1,6 @@
 const catchAsync = require('../utils/catchAsync.js');
 const Job = require('../models/jobModel.js');
+const ApiFeatures = require('../utils/apiFeatures.js'); // Adjust path as necessary
 
 exports.getAllJobs = catchAsync(async (req, res, next) => {
   try {
@@ -16,6 +17,32 @@ exports.getAllJobs = catchAsync(async (req, res, next) => {
   }
 });
 
+exports.searchJobs = async (req, res, next) => {
+  try {
+    const features = new ApiFeatures(Job.find(), req.query)
+      .filter()
+      .search()
+      .location()
+      .datePosted()
+      .pay()
+      .experienceLevel()
+      .excludeExpired()
+      .paginate();
+
+    const jobs = await features.query;
+    res.status(200).json({
+      success: true,
+      results: jobs.length,
+      jobs,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+
+
+
 exports.postJob = catchAsync(async (req, res, next) => {
   try {
     const { role } = req.user;
@@ -23,6 +50,7 @@ exports.postJob = catchAsync(async (req, res, next) => {
       throw new Error('Job Seeker not allowed to access this resource.');
     }
     const {
+      company,
       title,
       description,
       category,
@@ -32,9 +60,10 @@ exports.postJob = catchAsync(async (req, res, next) => {
       fixedSalary,
       salaryFrom,
       salaryTo,
+      experienceLevel
     } = req.body;
 
-    if (!title || !description || !category || !country || !city || !location) {
+    if (!company || !title || !description || !category || !country || !city || !location || !experienceLevel) {
       throw new Error('Please provide full job details.');
     }
     if ((!salaryFrom || !salaryTo) && !fixedSalary) {
@@ -47,6 +76,7 @@ exports.postJob = catchAsync(async (req, res, next) => {
 
     const postedBy = req.user._id;
     const job = await Job.create({
+      company,
       title,
       description,
       category,
@@ -56,6 +86,7 @@ exports.postJob = catchAsync(async (req, res, next) => {
       fixedSalary,
       salaryFrom,
       salaryTo,
+      experienceLevel,
       postedBy,
     });
 
@@ -167,3 +198,71 @@ exports.getSingleJob = catchAsync(async (req, res, next) => {
     });
   }
 });
+
+
+exports.searchByPay = catchAsync(async (req, res, next) => {
+  try {
+    // Parse the pay parameter from the query string
+    const minPay = parseInt(req.query.pay, 10);
+
+    // Check if the pay parameter is a valid number
+    if (isNaN(minPay)) {
+      return res.status(400).json({
+        status: 'fail',
+        message: 'Invalid pay parameter.',
+      });
+    }
+
+    // Construct the query
+    const jobs = await Job.find({
+      $or: [
+        { fixedSalary: { $gte: minPay } },
+        {
+          salaryFrom: { $lte: minPay },
+          salaryTo: { $gte: minPay }
+        }
+      ]
+    });
+
+    res.status(200).json({
+      success: true,
+      results: jobs.length,
+      jobs,
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: 'error',
+      message: error.message,
+    });
+  }
+});
+
+exports.searchByTitle = async (req, res, next) => {
+  try {
+    const { title } = req.query;
+
+    // Check if title is provided
+    if (!title) {
+      return res.status(400).json({
+        success: false,
+        message: 'Please provide a title to search for.',
+      });
+    }
+
+    // Find jobs where the title matches the provided query parameter
+    const jobs = await Job.find({
+      title: new RegExp(title, 'i'), // Case-insensitive search
+    });
+
+    res.status(200).json({
+      success: true,
+      results: jobs.length,
+      jobs,
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: 'error',
+      message: error.message,
+    });
+  }
+};

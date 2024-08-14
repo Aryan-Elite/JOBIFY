@@ -1,8 +1,12 @@
+const dotenv = require('dotenv');
 const crypto = require('crypto');
 const { promisify } = require('util');
 const jwt = require('jsonwebtoken');
 const User = require('../models/userModel');
 const catchAsync = require('../utils/catchAsync');
+dotenv.config({ path: './config.env' });
+const path = require('path');
+
 
 const signToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -122,3 +126,6 @@ exports.logout = catchAsync(async (req, res, next) => {
     throw new Error(err.message); // Throw error to be caught by catchAsync
   }
 });
+
+
+

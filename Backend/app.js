@@ -21,6 +21,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));   // to parse the data into json coming from frontend which is of other types
 
   // 3) ROUTES 
+
 app.use('/api/v1/user',userRouter);
 app.use('/api/v1/job',jobRouter);
 app.use('/api/v1/application',applicationRouter);
