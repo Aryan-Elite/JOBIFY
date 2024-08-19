@@ -1,16 +1,5 @@
 const Job = require('../models/jobModel');
 
-const filterByFields = (queryString) => {
-    const queryObj = { ...queryString };
-    const excludedFields = ['page', 'sort', 'limit', 'fields'];
-    excludedFields.forEach(field => delete queryObj[field]);
-
-    let queryStr = JSON.stringify(queryObj);
-    queryStr = queryStr.replace(/\b(gt|gte|lt|lte|eq)\b/g, match => `$${match}`);
-    
-    return JSON.parse(queryStr);
-};
-
 const searchByFields = (query, queryString) => {
     if (queryString.title) {            
         query = query.find({
@@ -45,18 +34,14 @@ const filterByLocation = (query, queryString) => {
 };
 
 const filterByDatePosted = (query, queryString) => {
-    console.log('Query String:', queryString); // Debugging line
     if (queryString.datePosted) {
         const daysAgo = parseInt(queryString.datePosted);
-        console.log('Days Ago:', daysAgo); // Debugging line
         
         const date = new Date();
         date.setDate(date.getDate() - daysAgo);
-        console.log('Date Filter:', date); // Debugging line
 
         const dateFilter = { jobPostedOn: { $gte: date } };
         query = query.find(dateFilter);
-        console.log('Filter Applied:', query.getFilter()); // Debugging line
         
     }
     return query;
@@ -91,13 +76,21 @@ const excludeExpired = (query) => {
 };
 
 const applyFilters = async (query, queryString) => {
-    query = query.find(filterByFields(queryString));
+    // query = query.find(filterByFields(queryString));
     query = searchByFields(query, queryString);
     query = filterByLocation(query, queryString);
     query = filterByDatePosted(query, queryString);
     query = filterByPay(query, queryString);
     query = filterByExperienceLevel(query, queryString);
     query = excludeExpired(query);
+
+        // Pagination and limit
+        const page = parseInt(queryString.page, 10) || 1;  // Default to page 1 if not specified
+        const limit = parseInt(queryString.limit, 10) || 10; // Default to 10 results per page if not specified
+        const skip = (page - 1) * limit;  // Number of results to skip
+    
+        query = query.skip(skip).limit(limit);
+    
     
     return query;
 };
