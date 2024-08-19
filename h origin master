@@ -1,0 +1,41 @@
+[33mcommit 5969a0893ead5b1626ce666f43b585c0f9e1d5f5[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmaster[m[33m)[m
+Author: Aryan_Elite <ng9198683768@gmail.com>
+Date:   Mon Aug 19 15:05:59 2024 +0530
+
+    Added search filter for the job seekers
+
+[33mcommit a738d4e6b5cd78823786bf00761791cb7f6c1b30[m[33m ([m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: Aryan_Elite <ng9198683768@gmail.com>
+Date:   Wed Aug 14 14:45:43 2024 +0530
+
+     Added mailing service
+
+[33mcommit a5f0f74a68e9e436965f9a68e061c8f72f9f233e[m
+Author: Aryan_Elite <ng9198683768@gmail.com>
+Date:   Tue Jul 23 02:41:40 2024 +0530
+
+    My final push 1.0
+
+[33mcommit bb8f5e6492276e75858a49cde82887756f6607a7[m
+Author: Aryan_Elite <ng9198683768@gmail.com>
+Date:   Thu Jul 18 13:17:16 2024 +0530
+
+    changed app.js
+
+[33mcommit 9f6d66d32a14c53a1b4f8301862b2b4806a1e2e4[m
+Author: Aryan_Elite <ng9198683768@gmail.com>
+Date:   Thu Jul 18 13:05:58 2024 +0530
+
+    Changed app.js
+
+[33mcommit bfcb50e9283e2f186d9bb749ff1083ada37b1703[m
+Author: Aryan_Elite <ng9198683768@gmail.com>
+Date:   Thu Jul 18 12:58:45 2024 +0530
+
+    Your commit message
+
+[33mcommit 55031c82f4282aaa2766ba286bb60ef754c44b2b[m
+Author: Aryan_Elite <ng9198683768@gmail.com>
+Date:   Thu Jul 18 12:43:54 2024 +0530
+
+    Remove node_modules and add to .gitignore
