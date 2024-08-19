@@ -2,9 +2,9 @@ const mongoose = require("mongoose");
 const User = require('./userModel');
 
 const jobSchema = new mongoose.Schema({
-  company: {
+  company:{
     type: String,
-    required: [true, "Please provide Company Name."],
+    required: [true, "Please provide the Company name."],
   },
   title: {
     type: String,
@@ -49,22 +49,15 @@ const jobSchema = new mongoose.Schema({
     type: Number,
     min: [1000, "Salary must be at least 4 digits"],
     max: [999999999, "Salary cannot exceed 9 digits"],
-    validate: {
-      validator: function(value) {
-        // `this` refers to the current document
-        return value >= this.salaryFrom;
-      },
-      message: "Salary To must be greater than or equal to Salary From"
-    }
+  },
+  experienceLevel: {  // New field for experience level
+    type: String,
+    enum: ['Entry', 'Mid', 'Senior'],
+    required: [true, "Please provide the experience level."]
   },
   expired: {
     type: Boolean,
     default: false,
-  },
-  experienceLevel: {
-    type: String,  // Add this to define the type
-    enum: ["entry", "mid", "senior"],
-    required: [true, "Please provide experienceLevel."],
   },
   jobPostedOn: {
     type: Date,
@@ -72,7 +65,7 @@ const jobSchema = new mongoose.Schema({
   },
   postedBy: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User", // Reference to User schema
+    ref: "User", // taking reference from User schema
     required: true,
   },
 });

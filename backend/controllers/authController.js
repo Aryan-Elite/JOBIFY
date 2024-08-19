@@ -1,11 +1,12 @@
 const dotenv = require('dotenv');
-dotenv.config({ path: './config.env' });
-const path = require('path');
 const crypto = require('crypto');
 const { promisify } = require('util');
 const jwt = require('jsonwebtoken');
 const User = require('../models/userModel');
 const catchAsync = require('../utils/catchAsync');
+dotenv.config({ path: './config.env' });
+const path = require('path');
+
 
 const signToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -43,6 +44,7 @@ exports.isAuthenticated = catchAsync(async (req, res, next) => {
     } else if (req.cookies.jwt) {
       token = req.cookies.jwt;
     }
+
     if (!token) {
       throw new Error('You are not logged in! Please log in to get access.');
     }
@@ -124,3 +126,6 @@ exports.logout = catchAsync(async (req, res, next) => {
     throw new Error(err.message); // Throw error to be caught by catchAsync
   }
 });
+
+
+

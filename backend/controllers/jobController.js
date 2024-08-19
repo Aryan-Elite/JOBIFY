@@ -1,6 +1,24 @@
 const catchAsync = require('../utils/catchAsync.js');
 const Job = require('../models/jobModel.js');
-const ApiFeatures = require('../utils/apiFeatures.js'); // Adjust path as necessary
+
+const { applyFilters } = require('../utils/searchFilters.js'); // Adjust the path as needed
+
+exports.searchJobs = async (req, res, next) => {
+    try {
+        let query = Job.find(); // Start with a base query
+        
+        query = await applyFilters(query, req.query); // Apply filters
+
+        const jobs = await query; // Execute the query
+        res.status(200).json({
+            success: true,
+            results: jobs.length,
+            jobs,
+        });
+    } catch (err) {
+        next(err); // Pass errors to error handling middleware
+    }
+};
 
 exports.getAllJobs = catchAsync(async (req, res, next) => {
   try {
@@ -16,32 +34,6 @@ exports.getAllJobs = catchAsync(async (req, res, next) => {
     });
   }
 });
-
-exports.searchJobs = async (req, res, next) => {
-  try {
-    const features = new ApiFeatures(Job.find(), req.query)
-      .filter()
-      .search()
-      .location()
-      .datePosted()
-      .pay()
-      .experienceLevel()
-      .excludeExpired()
-      .paginate();
-
-    const jobs = await features.query;
-    res.status(200).json({
-      success: true,
-      results: jobs.length,
-      jobs,
-    });
-  } catch (err) {
-    next(err);
-  }
-};
-
-
-
 
 exports.postJob = catchAsync(async (req, res, next) => {
   try {
@@ -266,3 +258,48 @@ exports.searchByTitle = async (req, res, next) => {
     });
   }
 };
+
+
+exports.searchByDate = catchAsync(async (req, res, next) => {
+  try {
+    // Parse the datePosted parameter from the query string
+    const { datePosted } = req.query;
+
+    // Check if datePosted is provided
+    if (!datePosted) {
+      return res.status(400).json({
+        status: 'fail',
+        message: 'Please provide a datePosted parameter.',
+      });
+    }
+    // Convert the datePosted parameter into a number of days
+    const daysAgo = parseInt(datePosted, 10);
+    if (isNaN(daysAgo) || daysAgo < 0) {
+      return res.status(400).json({
+        status: 'fail',
+        message: 'Invalid datePosted parameter.',
+      });
+    }
+
+    // Calculate the date to filter from
+    const date = new Date();
+    date.setDate(date.getDate() - daysAgo);
+
+    // Construct the query to find jobs posted on or after the calculated date
+    const jobs = await Job.find({
+      jobPostedOn: { $gte: date },
+      expired: false, // Ensure that the job is not expired
+    });
+
+    res.status(200).json({
+      success: true,
+      results: jobs.length,
+      jobs,
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: 'error',
+      message: error.message,
+    });
+  }
+});
