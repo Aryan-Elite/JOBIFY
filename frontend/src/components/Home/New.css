@@ -1,0 +1,143 @@
+.crd{
+    width: 68%;
+top: 172px;
+left: 41px;
+gap: 0px;
+opacity: 0px;
+box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+
+
+}
+.mainn{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.seek{
+    font-size: 28px;
+    font-weight: 500;
+    margin-left: 40%;
+}
+.sec{
+
+margin-left: 30px;
+gap: 0px;
+opacity: 0px;
+
+}
+.head1{
+   font-size: 20px; 
+   font-weight: 500;
+   
+}
+.fir{
+    margin-top: 20px;
+font-family: Nimbus Sans L;
+font-size: 18px;
+font-weight: 400;
+line-height: 43.2px;
+text-align: left;
+
+}
+.imagee{
+    width: 741px;
+height: 556px;
+top: 873px;
+left: 53px;
+gap: 0px;
+opacity: 0px;
+
+}
+.color{
+background-color: rgba(55, 130, 199, 1);
+width: 30vw;
+
+}
+.categ{
+    font-family: Italiana;
+font-size: 36px;
+font-weight: 400;
+line-height: 42.41px;
+text-align: left;
+
+}
+.line{
+    color: black;
+}
+
+.bot{
+    display: flex;
+    justify-content: center;
+    align-items:flex-start;
+    flex-direction: column;
+  gap: 10px;
+}
+.sy{
+    margin-left: 2vw;
+    margin-top: 10vh;
+}
+.he{
+    font-weight: 400;
+}
+.text{
+    font-family: Italiana;
+font-size: 26px;
+font-weight: 400;
+line-height: 42.41px;
+text-align: left;
+margin-top: 20vh;
+margin-left: 5vw;
+margin-right: 5vw;
+}
+
+.companies img{
+    width: 139px;
+height: 42px;
+gap: 0px;
+opacity: 0px;
+
+}
+.flex{
+    display: flex;
+    align-items: left;
+    justify-content: left;
+    margin-left: 5vw;
+}
+.download{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+   
+}
+.download img{
+    width: 100px;
+}
+.flex p{
+    margin-top: 40px;
+    font-family: Italiana;
+font-size: 26px;
+font-weight: 400;
+line-height: 42.41px;
+margin-left: 30px;
+}
+.download p{
+    margin-top: 10px;
+    font-family: Italiana;
+font-size: 26px;
+font-weight: 400;
+line-height: 42.41px;
+margin-left: 30px;
+}
+.boxx{
+    margin-top: -80vh;
+}
+.stack{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.syx{
+margin-left: 20px;
+margin-top: 20px;
+margin-bottom: 20px;
+}

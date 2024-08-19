@@ -2,9 +2,9 @@ const express = require('express');
 const router = express.Router();
 const jobController= require('../controllers/jobController.js');
 const authController  = require('../controllers/authController.js');
-
-router.get('/searchByPay', jobController.searchByPay);
-router.get('/searchByTitle', jobController.searchByTitle);
+// router.get('/searchByDate', jobController.searchByDate);
+// router.get('/searchByPay', jobController.searchByPay);
+// router.get('/searchByTitle', jobController.searchByTitle);
 router.get('/getall', jobController.getAllJobs);
 router.get('/searchJobs', jobController.searchJobs);
 router.post("/post", authController.isAuthenticated, jobController.postJob);
