@@ -3,6 +3,8 @@ dotenv.config({ path: './config.env' });
 const app=require('./app');
 const mongoose = require('mongoose');
 const PORT = process.env.PORT || 5000;
+const sns = require('./config/awsConfig'); // Adjust the path as needed
+
 app.listen(PORT, () => {
     console.log(`Listening on port ${PORT}...`);
   });
@@ -14,3 +16,6 @@ const DB = process.env.DATABASE.replace(
 mongoose.connect(DB, {}).then((con) => {
   console.log('DB connection established');
 });
+
+
+

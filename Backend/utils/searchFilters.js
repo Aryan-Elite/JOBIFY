@@ -47,7 +47,6 @@ const filterByDatePosted = (query, queryString) => {
     return query;
 };
 
-
 const filterByPay = (query, queryString) => {
     if (queryString.pay) {
         const minPay = parseInt(queryString.pay);
@@ -71,26 +70,34 @@ const filterByExperienceLevel = (query, queryString) => {
     return query;
 };
 
+// New function to filter by skills
+const filterBySkills = (query, queryString) => {
+    if (queryString.skills) {
+        const skills = queryString.skills.split(',').map(skill => skill.trim());
+        query = query.find({ skillsRequired: { $in: skills } }); // Assuming `skillsRequired` is an array in your Job model
+    }
+    return query;
+};
+
 const excludeExpired = (query) => {
     return query.find({ expired: false });
 };
 
 const applyFilters = async (query, queryString) => {
-    // query = query.find(filterByFields(queryString));
     query = searchByFields(query, queryString);
     query = filterByLocation(query, queryString);
     query = filterByDatePosted(query, queryString);
     query = filterByPay(query, queryString);
     query = filterByExperienceLevel(query, queryString);
+    query = filterBySkills(query, queryString); // Apply skills filter
     query = excludeExpired(query);
 
-        // Pagination and limit
-        const page = parseInt(queryString.page, 10) || 1;  // Default to page 1 if not specified
-        const limit = parseInt(queryString.limit, 10) || 10; // Default to 10 results per page if not specified
-        const skip = (page - 1) * limit;  // Number of results to skip
+    // Pagination and limit
+    const page = parseInt(queryString.page, 10) || 1;  // Default to page 1 if not specified
+    const limit = parseInt(queryString.limit, 10) || 10; // Default to 10 results per page if not specified
+    const skip = (page - 1) * limit;  // Number of results to skip
     
-        query = query.skip(skip).limit(limit);
-    
+    query = query.skip(skip).limit(limit);
     
     return query;
 };

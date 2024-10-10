@@ -1,63 +1,54 @@
-const mongoose = require("mongoose");
-const User = require('./userModel');
+const mongoose = require('mongoose');
 
 const jobSchema = new mongoose.Schema({
-  company:{
+  company: {
     type: String,
-    required: [true, "Please provide the Company name."],
+    required: [true, 'A job must have a company name.'],
   },
   title: {
     type: String,
-    required: [true, "Please provide a title."],
-    minLength: [3, "Title must contain at least 3 Characters!"],
-    maxLength: [30, "Title cannot exceed 30 Characters!"],
+    required: [true, 'A job must have a title.'],
   },
   description: {
     type: String,
-    required: [true, "Please provide description."],
-    minLength: [30, "Description must contain at least 30 Characters!"],
-    maxLength: [500, "Description cannot exceed 500 Characters!"],
+    required: [true, 'A job must have a description.'],
   },
+  skillsRequired: {
+    type: [String], // Array of strings for multiple skills
+    required: false,
+},
   category: {
     type: String,
-    required: [true, "Please provide a category."],
+    required: [true, 'A job must have a category.'],
   },
   country: {
     type: String,
-    required: [true, "Please provide a country name."],
+    required: [true, 'A job must have a country.'],
   },
   city: {
     type: String,
-    required: [true, "Please provide a city name."],
+    required: [true, 'A job must have a city.'],
   },
   location: {
     type: String,
-    required: [true, "Please provide location."],
-    minLength: [20, "Location must contain at least 20 characters!"],
+    required: [true, 'A job must have a location.'],
   },
   fixedSalary: {
     type: Number,
-    min: [1000, "Salary must be at least 4 digits"],
-    max: [999999999, "Salary cannot exceed 9 digits"],
+    required: false,
   },
   salaryFrom: {
     type: Number,
-    min: [1000, "Salary must be at least 4 digits"],
-    max: [999999999, "Salary cannot exceed 9 digits"],
+    required: false,
   },
   salaryTo: {
     type: Number,
-    min: [1000, "Salary must be at least 4 digits"],
-    max: [999999999, "Salary cannot exceed 9 digits"],
+    required: false,
   },
-  experienceLevel: {  // New field for experience level
+  experienceLevel: {
     type: String,
-    enum: ['Entry', 'Mid', 'Senior'],
-    required: [true, "Please provide the experience level."]
-  },
-  expired: {
-    type: Boolean,
-    default: false,
+    enum: ['Entry Level', 'Mid Level', 'Senior Level'],
+    required: [true, 'A job must have an experience level.'],
   },
   jobPostedOn: {
     type: Date,
@@ -65,10 +56,15 @@ const jobSchema = new mongoose.Schema({
   },
   postedBy: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User", // taking reference from User schema
-    required: true,
+    ref: 'User',
+    required: [true, 'A job must be posted by a user.'],
+  },
+  expired: {
+    type: Boolean,
+    default: false,
   },
 });
 
 const Job = mongoose.model('Job', jobSchema);
+
 module.exports = Job;
