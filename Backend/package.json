@@ -10,7 +10,7 @@
   "author": "Aryan Gupta",
   "license": "ISC",
   "dependencies": {
-    "@aws-sdk/client-sns": "^3.665.0",
+    "@aws-sdk/client-sns": "^3.670.0",
     "aws-sdk": "^2.1691.0",
     "axios": "^1.7.7",
     "bcrypt": "^5.1.1",

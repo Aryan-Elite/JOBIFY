@@ -10,6 +10,7 @@ const applicationRouter = require('./routes/applicationRoute');
 const { ErrorHandler, handleErrors } = require('./controllers/errorController');
 const sns = require('./config/awsConfig'); // Adjust the path as needed
 const subscriptionRouter = require('./routes/subscriptionRoutes');
+
  // Adjust the path accordingly
  app.use(cors({
   origin: 'http://localhost:5173', // or your frontend URL

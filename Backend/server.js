@@ -1,21 +1,23 @@
 const dotenv = require('dotenv');
 dotenv.config({ path: './config.env' });
-const app=require('./app');
+
+const app = require('./app');
 const mongoose = require('mongoose');
 const PORT = process.env.PORT || 5000;
 const sns = require('./config/awsConfig'); // Adjust the path as needed
 
+// Require your cron job
+require('./cronJobs/cronJob'); // Adjust path to where your cron job logic is located
+
+// Start the server
 app.listen(PORT, () => {
-    console.log(`Listening on port ${PORT}...`);
-  });
-  // Replace <PASSWORD> with the actual password from your environment variables
-const DB = process.env.DATABASE.replace(
-  '<PASSWORD>',
-  process.env.DATABASE_PASSWORD
-);
-mongoose.connect(DB, {}).then((con) => {
-  console.log('DB connection established');
+  console.log(`Listening on port ${PORT}...`);
 });
 
+// Replace <PASSWORD> with the actual password from your environment variables
+const DB = process.env.DATABASE.replace('<PASSWORD>', process.env.DATABASE_PASSWORD);
 
+mongoose.connect(DB, {}).then(() => {
+  console.log('DB connection established');
+});
 
