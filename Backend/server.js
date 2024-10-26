@@ -3,7 +3,7 @@ dotenv.config({ path: './config.env' });
 
 const app = require('./app');
 const mongoose = require('mongoose');
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 8080; // Elastic Beanstalk uses 8080 by default
 const sns = require('./config/awsConfig'); // Adjust the path as needed
 
 // Require your cron job
